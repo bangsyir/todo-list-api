@@ -10,12 +10,15 @@
     <title>Todo App @yield("title")</title>
     <!-- Styles -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
+    @yield('script-header')
+    
 </head>
-<body>
+<body style="background-color: rgb(237, 237, 237)">
   @yield("content")
   <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.min.js"></script>
+  <script src="{{asset('/js/main.js')}}"></script>
   @yield('script')
 </body>
 </html>
