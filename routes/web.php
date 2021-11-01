@@ -13,7 +13,12 @@ use App\Http\Controllers\AuthController;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+Route::get('/', function() {
+    return redirect()->route('login-view');
+});
+
+Route::get('/todos', function () {
+    return view('todos.index');
 });
 Route::get('/login', [AuthController::class, 'getLogin'])->name('login-view');
+Route::get('/register', [AuthController::class, 'getRegister'])->name('register-view');
