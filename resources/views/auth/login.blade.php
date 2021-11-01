@@ -40,9 +40,6 @@
 
         const name = document.querySelector('#email').value;
         const password = document.querySelector('#password').value;
-        // console.log('hello');
-        console.log(name)
-        console.log(password)
       })
     </script>
 @endsection
