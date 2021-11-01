@@ -9,6 +9,10 @@ use App\Models\User;
 
 class AuthController extends Controller
 {
+    public function getLogin() {
+        return view('auth.login');
+    }
+
     public function login(Request $request) {
 
         $validator = Validator::make($request->all(), [   
