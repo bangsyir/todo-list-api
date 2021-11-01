@@ -13,6 +13,10 @@ class AuthController extends Controller
         return view('auth.login');
     }
 
+    public function getRegister() {
+        return view('auth.register');
+    }
+
     public function login(Request $request) {
 
         $validator = Validator::make($request->all(), [   
@@ -22,11 +26,12 @@ class AuthController extends Controller
         $user = User::where('email', '=', $request->email)->first();
         $status = "error";
         $message = "";
+        $errors = null;
         $data = null;
         $code = 401;
         if($validator->fails()) {
             $errors = $validator->errors();
-            $message = $errors;
+            // $message = $errors;
         } else {
             if($user) {
                 // check if password user input same qith password in database
@@ -39,10 +44,10 @@ class AuthController extends Controller
                     $data = $user->toArray();
                     $code = 200;
                 }else {
-                    $message = 'Login failed, wrong password';
+                    $message = 'Login failed, wrong email or password';
                 }
             } else {
-                $message = 'Login failed, wrong password';
+                $message = 'Login failed, wrong email or password';
             }
         }
 
@@ -50,13 +55,14 @@ class AuthController extends Controller
             'status' => 'login',
             'message' => $message,
             'status_code' => $code,
+            'errors' => $errors,
             'data' => $data
         ],$code);
     }
 
     public function register(Request $request) {
         $validator = Validator::make($request->all(), [
-            'name' => 'required|string|max:255',
+            'name' => 'required|string',
             'email' => 'required|string|email|max:255|unique:users',
             'phone' => ' required',
             'password' => 'required|string|min:8'
@@ -64,11 +70,11 @@ class AuthController extends Controller
 
         $status = "error";
         $message = "";
+        $errors = null;
         $data = null;
         $code = 400;
         if($validator->fails()) {
             $errors = $validator->errors();
-            $message = $errors;
         } else {
             $user = User::create([
                 'name' => $request->name,
@@ -90,6 +96,7 @@ class AuthController extends Controller
         return response()->json([
             'status' => $status,
             'message' => $message,
+            'errors' => $errors,
             'data' => $data
         ], $code);
     }
