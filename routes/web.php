@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\TodoController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -22,3 +23,4 @@ Route::get('/todos', function () {
 });
 Route::get('/login', [AuthController::class, 'getLogin'])->name('login-view');
 Route::get('/register', [AuthController::class, 'getRegister'])->name('register-view');
+Route::get('/logs', [TodoController::class, 'getLogs'])->name('todos-log');
