@@ -31,49 +31,51 @@
 @endsection
 @section('script')
     <script>
-      const form = document.getElementById('loginForm')
-      form.addEventListener("submit", (e) => {
-        e.preventDefault();
-
-        const email = document.querySelector('#email').value;
-        const password = document.querySelector('#password').value;
-
-        const data = {email: email, password: password};
-        fetch('/v1/login', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(data)
-        })
-        .then(response => response.json())
-        .then(data => {
-          if(data.status_code === 401 && data.message.length != 0) {
-            document.getElementById('alert').innerHTML = data.message
-            document.getElementById('alert').classList.remove('d-none')
-          }
-          if(data.errors !== null) {
-            if(data.errors.email !== undefined) {
-              document.getElementById('email').classList.add('is-invalid')
-              document.getElementById('email-error').classList.remove('d-none')
-              document.getElementById('email-error').innerHTML = data.errors.email[0]
+      window.onload= function() {
+        const form = document.getElementById('loginForm')
+        form.addEventListener("submit", (e) => {
+          e.preventDefault();
+  
+          const email = document.querySelector('#email').value;
+          const password = document.querySelector('#password').value;
+  
+          const data = {email: email, password: password};
+          fetch('/v1/login', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data)
+          })
+          .then(response => response.json())
+          .then(data => {
+            if(data.status_code === 401 && data.message.length != 0) {
+              document.getElementById('alert').innerHTML = data.message
+              document.getElementById('alert').classList.remove('d-none')
             }
-            if(data.errors.password !== undefined) {
-              document.getElementById('password').classList.add('is-invalid')
-              document.getElementById('password-error').classList.remove('d-none')
-              document.getElementById('password-error').innerHTML = data.errors.password[0]
+            if(data.errors !== null) {
+              if(data.errors.email !== undefined) {
+                document.getElementById('email').classList.add('is-invalid')
+                document.getElementById('email-error').classList.remove('d-none')
+                document.getElementById('email-error').innerHTML = data.errors.email[0]
+              }
+              if(data.errors.password !== undefined) {
+                document.getElementById('password').classList.add('is-invalid')
+                document.getElementById('password-error').classList.remove('d-none')
+                document.getElementById('password-error').innerHTML = data.errors.password[0]
+              }
+            } else {
+              localStorage.setItem("isAuth", 1)
+              localStorage.setItem("api_token",data.data.api_token)
+  
+              window.location.href = "/todos";
             }
-          } else {
-            localStorage.setItem("isAuth", 1)
-            localStorage.setItem("api_token",data.data.api_token)
-
-            window.location.href = "/todos";
-          }
+          })
+          .catch((error) => {
+            console.error('Error:', error)
+          })
         })
-        .catch((error) => {
-          console.error('Error:', error)
-        })
-      })
+      }
     </script>
 @endsection
 @section('script-header')
