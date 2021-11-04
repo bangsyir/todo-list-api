@@ -17,7 +17,7 @@ class TodoController extends Controller
     public function index()
     {
         $user = \Auth::user();
-        $todos = Todo::where('user_id', $user->id)->get();
+        $todos = Todo::where('user_id', $user->id)->orderBy('created_at', 'DESC')->get();
 
         return new TodosResource($todos);
     }
@@ -43,7 +43,6 @@ class TodoController extends Controller
         $validator = \Validator::make($request->all(), [
             'title' => 'required',
             'description' => 'required',
-            'user_id' => 'required'
         ]);
 
         $user = \Auth::user();
