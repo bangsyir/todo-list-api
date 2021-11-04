@@ -11,6 +11,9 @@
         <div class="alert alert-success d-none" id="addAlertSuccess">
           Hello
         </div>
+        <div class="alert alert-danger d-none" id="limitAlertSuccess">
+          Hello
+        </div>
         <form method="POST" class="todoForm" id="addTodoForm">
           <div class="form-group">
             <label for="title">Title</label>
