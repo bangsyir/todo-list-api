@@ -13,7 +13,7 @@
     @yield('script-header')
     
 </head>
-<body style="background-color: rgb(237, 237, 237)">
+<body style="background-color: rgb(237, 237, 237)" class="h-100">
   @yield("content")
   <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
