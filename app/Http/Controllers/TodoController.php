@@ -31,11 +31,13 @@ class TodoController extends Controller
      */
 
     public function todo($request, $user) {
-        return Todo::create([
+        $todo = Todo::create([
             'title' => $request->title,
             'description' => $request->description,
             'user_id' => $user->id
         ]);
+        \App\Events\LogProcessed::dispatch($todo, 'POST');
+        return $todo;
     }
 
     public function store(Request $request)
@@ -51,7 +53,7 @@ class TodoController extends Controller
         $status = "error";
         $message = "";
         $data = null;
-        $code = 401;
+        $code = 400;
         if($validator->fails()) {
             $errors = $validator->errors();
             $message = $errors;
@@ -69,10 +71,11 @@ class TodoController extends Controller
                     }
                 } else {
                     $message = 'You have reached the limit';
-                    $code = 200;
+                    $code = 401;
                 }
                 return response()->json([
                     'status' => $status,
+                    'code' => $code,
                     'message' => $message,
                     'data' => $data
                 ],$code);
@@ -88,6 +91,7 @@ class TodoController extends Controller
                 }
                 return response()->json([
                     'status' => $status,
+                    'code' => $code,
                     'message' => $message,
                     'data' => $data
                 ],$code);
@@ -95,9 +99,10 @@ class TodoController extends Controller
         }
         return response()->json([
             'status' => $status,
+            'code' => $code,
             'message' => $message,
-            'data' => $data
-        ],200);
+            'data' => $data,
+        ],$code);
         
     }
 
@@ -145,6 +150,7 @@ class TodoController extends Controller
             $todo->title = $request->title;
             $todo->description = $request->description;
             $todo->save();
+            \App\Events\LogProcessed::dispatch($todo, 'UPDATE');
             $status = 'success';
             $message = 'update successfull';
             $data = $todo;
@@ -167,6 +173,7 @@ class TodoController extends Controller
     public function destroy($id)
     {
         $todo = Todo::findOrFail($id);
+        \App\Events\LogProcessed::dispatch($todo, 'DELETE');
         $todo->delete();
 
         return response()->json([
@@ -174,5 +181,10 @@ class TodoController extends Controller
             'message' => 'success deleted',
             'data' => $todo
         ]);
+    }
+
+    public function getLogs() {
+
+        return view('todos.logs');
     }
 }
