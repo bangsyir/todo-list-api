@@ -29,13 +29,11 @@ function deteTodoBtn(id) {
 const addForm = document.getElementById('addTodoForm')
 if(addForm) {
   addForm.addEventListener("submit", (e) => {
-    console.log('create')
     e.preventDefault()
     const title = document.getElementById('title')
     const description = document.getElementById('description')
 
     const data = {title: title.value, description: description.value}
-    console.log(data)
     fetch('v1/todo/create', {
       method: 'POST',
       headers: {
@@ -47,9 +45,6 @@ if(addForm) {
     })
     .then(response => response.json())
     .then((res) => {
-      console.log(res)
-      
-
       if(res.status == "error") {
         if(res.message.title !== undefined) {
           title.classList.add('is-invalid')
@@ -61,8 +56,13 @@ if(addForm) {
           document.getElementById('description-error').classList.remove('d-none')
           document.getElementById('description-error').innerHTML = res.message.description[0]
         }
+        if(res.code == 401) {
+          document.getElementById('limitAlertSuccess').classList.remove('d-none')
+          document.getElementById('limitAlertSuccess').innerHTML = res.message + ' '+'Please upgrade your <a href="/plan">Plan</a>.'
+
+        }
       } else {
-        const successAlert = document.getElementById('AddAlertSuccess')
+        const successAlert = document.getElementById('addAlertSuccess')
         successAlert.classList.remove('d-none')
         successAlert.innerHTML = "todo update is successfull"
         setTimeout(() => {
