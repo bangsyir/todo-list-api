@@ -33,3 +33,4 @@ class reminderEmail extends Mailable implements ShouldQueue
         ->with('reminders', $this->reminders);
     }
 }
+
