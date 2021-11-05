@@ -32,6 +32,6 @@ Route::prefix('v1')->group(function() {
         // auth 
         Route::get('user', [AuthController::class, 'getUser'])->name('user');
         Route::put('plan/update', [AuthController::class, 'updatePlan'])->name('update-plan');
-        Route::put('logout', [AuthController::class, 'logout'])->name('logout');
+        Route::post('logout', [AuthController::class, 'logout'])->name('logout');
     });
 });
