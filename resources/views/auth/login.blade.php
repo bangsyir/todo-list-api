@@ -25,6 +25,9 @@
             </form>
           </div>
         </div>
+        <div class="text-center">
+          <a href="/register">If you don't have an account. please register.</a>
+        </div>
       </div>
     </div>
   </div>
