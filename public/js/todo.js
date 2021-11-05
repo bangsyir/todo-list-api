@@ -1,3 +1,4 @@
+
 // display value todo to modal
 function updateTodoBtn(id, title, description) {
   document.getElementById('update-id').value = id
@@ -67,7 +68,7 @@ if(addForm) {
         successAlert.innerHTML = "todo update is successfull"
         setTimeout(() => {
           window.location.href = '/todos'
-        }, 2000)
+        }, 1000)
       }
     })    
     .catch(error => console.error(error))
@@ -113,9 +114,47 @@ if(updateForm) {
         successAlert.innerHTML = "todo update is successfull"
         setTimeout(() => {
           window.location.href = '/todos'
-        }, 2000)
+        }, 1000)
       }
     })
     .catch(error => console.error(error))
+  })
+
+}
+// update reminder
+function setReminderBtn(id) {
+  document.getElementById('reminder-id').value = id
+}
+const reminderForm = document.querySelector('#updateReminderForm')
+if(reminderForm) {
+  reminderForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    console.log(token)
+    const id = document.getElementById('reminder-id')
+    const date = document.getElementById('update-remainder')
+    const data = {id: id.value, reminder: date.value}
+
+    console.log(date)
+    fetch(`v1/todo/set-reminder/${id.value}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      },
+      mode: 'cors',
+      body: JSON.stringify(data)
+    })
+    .then(response => response.json())
+    .then((res) => {
+      const alertSuccess = document.getElementById('reminderAlertSuccess')
+      alertSuccess.classList.remove('d-none')
+      alertSuccess.innerHTML = res.message
+      setTimeout(() => {
+        window.location.href = '/todos'
+      }, 1000)
+    })
+    .catch((error)=> {
+      console.error(error)
+    })
   })
 }

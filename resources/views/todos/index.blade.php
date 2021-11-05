@@ -12,13 +12,16 @@
   </div>
   @include('../components/addModal')
   @include('../components/updateModal')
+  @include('../components/reminderModal')
 @endsection
 @section('script-header')
+    <script>
+      const token = localStorage.getItem("api_token")
+    </script>
     <script src="{{asset('js/auth.js')}}"></script>
 @endsection
 @section('script')
 <script>
-  const token = localStorage.getItem("api_token")
   // get get todos
   fetch('/v1/todo', {
     method: 'GET',
@@ -39,7 +42,7 @@
             <div>
               <button class="btn btn-success btn-sm" type="button" data-toggle="modal" data-target="#updateModal" onClick="updateTodoBtn(${data.id}, '${data.title}', '${data.description}')">Update</button>
               <button class="btn btn-danger btn-sm" id="delete" onClick="return confirm('are you sure want to delete?') ? deteTodoBtn(${data.id}) : ''">Del</button>
-              <button class="btn btn-primary btn-sm" id="reminder" onClick="reminderBtn(${data.id})">Reminder</button>
+              <button class="btn btn-primary btn-sm" id="reminder" type="button" data-toggle="modal" data-target="#reminderModal" onClick="setReminderBtn(${data.id})">Reminder</button>
             </div>
           </div>
           <p class="mb-1">${data.description}</p>

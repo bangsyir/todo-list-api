@@ -185,6 +185,38 @@ class TodoController extends Controller
 
     public function getLogs() {
 
-        return view('todos.logs');
+        $logs = \DB::table('todo_history as history')
+        ->leftJoin('users', function($join) {
+            $join->on('history.user_id', '=', 'users.id');
+        })
+        ->leftJoin('todos', function($join) {
+            $join->on('history.todo_id', '=', 'todos.id');
+        })
+        ->select('history.*', 'todos.title','todos.description', 'users.name as userName')
+        ->get();
+        return response()->json([
+            'status' => 'success',
+            'message' => 'success',
+            'data' => $logs 
+        ], 200);
+    }
+
+    public function setReminder(Request $request, $id) {
+        $user = \Auth::user();
+        $todo = Todo::where('user_id', $user->id)->where('id', $id)->firstOrFail();
+
+        $status = "error";
+        $message = "";
+        $data = null;
+        $code = 400;
+        
+        $todo->reminder = ($request->reminder);
+        $todo->save();
+
+        return response()->json([
+            'status' => 'success',
+            'message' => 'success',
+            'data' => $todo->reminder
+        ], 200);
     }
 }

@@ -23,4 +23,9 @@ Route::get('/todos', function () {
 });
 Route::get('/login', [AuthController::class, 'getLogin'])->name('login-view');
 Route::get('/register', [AuthController::class, 'getRegister'])->name('register-view');
-Route::get('/logs', [TodoController::class, 'getLogs'])->name('todos-log');
+Route::get('/logs', function() {
+    return view('todos.logs');
+});
+Route::get('/user', function() {
+    return view('user.index');
+});

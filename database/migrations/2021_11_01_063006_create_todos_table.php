@@ -17,7 +17,7 @@ class CreateTodosTable extends Migration
             $table->id();
             $table->string('title');
             $table->string('description');
-            $table->dateTime('reminder')->nullable();
+            $table->date('reminder')->nullable();
             $table->unsignedBigInteger('user_id');
             $table->timestamps();
 
