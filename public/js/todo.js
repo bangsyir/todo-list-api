@@ -59,7 +59,7 @@ if(addForm) {
         }
         if(res.code == 401) {
           document.getElementById('limitAlertSuccess').classList.remove('d-none')
-          document.getElementById('limitAlertSuccess').innerHTML = res.message + ' '+'Please upgrade your <a href="/plan">Plan</a>.'
+          document.getElementById('limitAlertSuccess').innerHTML = res.message + ' '+'Please upgrade your plan. Go to <a href="/user">User</a>.'
 
         }
       } else {
