@@ -114,4 +114,29 @@ class AuthController extends Controller
             'data' => null
         ], 200);
     }
+    
+    public function getUser() {
+        $user = \Auth::user();
+
+        return response()->json([
+            'status' => 'success',
+            'message' => 'user successfull loaded',
+            'data' => $user
+        ], 200);
+    }
+
+    public function updatePlan(Request $request) {
+        $user = \Auth::user();
+
+        if($user) {
+            $user->type = $request->type;
+            $user->save();
+        }
+
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Plan successfully updated ',
+            'data' => $user->type
+        ], 200);
+    }
 }
