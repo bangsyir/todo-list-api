@@ -5,3 +5,7 @@
 - laravel 8
 - mailtrap 
 - postgresql/mysql
+
+### Command
+Email Queue :
+Php artisan  remainder:emails
